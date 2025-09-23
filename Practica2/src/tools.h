@@ -12,6 +12,7 @@
 // 
 
 #include "Cadena.cc"
+#include "Alfabeto.cc"
 #include <fstream>
 #include <sstream>
 
@@ -63,10 +64,53 @@ std::vector<std::string> store_content(std::string& filename) {
   return save;
 }
 
-void DoAlphabet(std::string& fout) {
+void DoAlphabet(std::vector<std::string> data, std::string& fout) {
   std::ofstream output(fout);
 
-    
+  // Recorrer los valores impares es recorrer los alfabetos almacenados
+  for (unsigned i{1}; i < data.size(); ++(++i)) { 
+    Alfabeto aux = data[i];
+    output << aux << std::endl;
+  }
 }
+
+void DoLength(std::vector<std::string> data, std::string& fout) {
+  std::ofstream output(fout);
+
+  for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Cadena aux = data[i];
+    output << aux.get_length() << std::endl;
+  }
+}
+
+void DoInverse(std::vector<std::string> data, std::string& fout) {
+  std::ofstream output(fout);
+
+  for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Cadena aux = data[i];
+    output << aux.reverse() << std::endl;
+  }
+}
+
+void DoPrefix(std::vector<std::string> data, std::string& fout) {
+  std::ofstream output(fout);
+
+  for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Cadena aux = data[i];
+    aux.print_pre(output);
+    output << std::endl;
+  }
+}
+
+void DoSufix(std::vector<std::string> data, std::string& fout) {
+  std::ofstream output(fout);
+
+  for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Cadena aux = data[i];
+    aux.print_suf(output);
+    output << std::endl;
+  }
+}
+
 
 #endif
