@@ -11,8 +11,9 @@
 //      Contiene las funciones que van a ser usadas posteriormente en el main
 // 
 
-#include "Cadena.cc"
-#include "Alfabeto.cc"
+#include "Cadena.h"
+#include "Alfabeto.h"
+#include "Lenguaje.h"
 #include <fstream>
 #include <sstream>
 
@@ -49,14 +50,13 @@ std::vector<std::string> store_content(std::string& filename) {
   std::vector<std::string> save;
 
   std::string linea;                        // Linea getline
-  std::ifstream entry;                      // flujo de salida de fichero
+  std::ifstream entry(filename);                      // flujo de salida de fichero
   std::string aux1;                         // string designada a almacenar la cadena de cada linea
   std::string aux2;                         // string designada a almacenar el alfabeto de cada linea
 
   while (std::getline(entry, linea)) {
     std::istringstream stream(linea);
     stream >> aux1 >> aux2;
-
     save.push_back(aux1);
     save.push_back(aux2);
   }
@@ -64,7 +64,24 @@ std::vector<std::string> store_content(std::string& filename) {
   return save;
 }
 
-void DoAlphabet(std::vector<std::string> data, std::string& fout) {
+void alpha_empty(std::string cadena) {
+  if (cadena.size() == 0) {
+    std::cerr << "El alfabeto no puede ser vacío" << std::endl;
+    exit(1);
+  }
+}
+
+void check_alpha(std::vector<std::string> array) {
+  for (unsigned i{1}; i < array.size(); ++(++i)) {
+    alpha_empty(array[i]);
+  }
+  for (unsigned i{0}; i < array.size(); ++(++i)) {
+    Cadena aux = array[i];
+    aux.in_alpha(array[i+1]);
+  }
+}
+
+void DoAlphabet(const std::vector<std::string> data, const std::string& fout) {
   std::ofstream output(fout);
 
   // Recorrer los valores impares es recorrer los alfabetos almacenados
@@ -74,7 +91,7 @@ void DoAlphabet(std::vector<std::string> data, std::string& fout) {
   }
 }
 
-void DoLength(std::vector<std::string> data, std::string& fout) {
+void DoLength(const std::vector<std::string> data, const std::string& fout) {
   std::ofstream output(fout);
 
   for (unsigned i{0}; i < data.size(); ++(++i)) {
@@ -83,7 +100,7 @@ void DoLength(std::vector<std::string> data, std::string& fout) {
   }
 }
 
-void DoInverse(std::vector<std::string> data, std::string& fout) {
+void DoInverse(const std::vector<std::string> data, const std::string& fout) {
   std::ofstream output(fout);
 
   for (unsigned i{0}; i < data.size(); ++(++i)) {
@@ -92,23 +109,25 @@ void DoInverse(std::vector<std::string> data, std::string& fout) {
   }
 }
 
-void DoPrefix(std::vector<std::string> data, std::string& fout) {
+void DoPrefix(const std::vector<std::string> data, const std::string& fout) {
   std::ofstream output(fout);
 
   for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Lenguaje conj;
     Cadena aux = data[i];
-    aux.print_pre(output);
-    output << std::endl;
+    conj = conj.DoPrefix(aux);
+    output << conj << std::endl;
   }
 }
 
-void DoSufix(std::vector<std::string> data, std::string& fout) {
+void DoSufix(const std::vector<std::string> data, const std::string& fout) {
   std::ofstream output(fout);
 
   for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Lenguaje conj;
     Cadena aux = data[i];
-    aux.print_suf(output);
-    output << std::endl;
+    conj = conj.DoSufix(aux);
+    output << conj << std::endl;
   }
 }
 

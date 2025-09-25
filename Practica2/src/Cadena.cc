@@ -43,6 +43,15 @@
 		return aux;
 	}
 
+	void Cadena::in_alpha(const Alfabeto& a) {
+		for (unsigned i{0}; i < secuence_.size(); ++i) {
+			if (!a.search(secuence_[i])) {
+				std::cerr << "La cadena " << *this << " no es valida porque contiene elementos que no se encuentran en el alfabeto " << a << std::endl;
+				exit(1);
+			}
+		}
+	}
+
 	void Cadena::print(std::ostream& os) {
 		if (secuence_.size()==0) {
 			os << '&';
@@ -57,7 +66,7 @@
 		os << '{';
 		Cadena prefixs;
 		for (unsigned i{0}; i < secuence_.size(); ++i) {
-			os << prefixs << ', ';
+			os << prefixs << ", ";
 			prefixs.add_element_back(secuence_[i]);			
 		}
 		os << prefixs << '}';
@@ -67,7 +76,7 @@
 		os << '{';
 		Cadena sufix;
 		for (unsigned i=secuence_.size(); i!=0; --i) {
-			os << sufix << ', ';
+			os << sufix << ", ";
 			sufix.add_element_front(secuence_[i-1]);
 		}
 		os << sufix << '}';
@@ -100,4 +109,14 @@
 
 	const char& Cadena::operator[](std::size_t i) const {
 		return secuence_[i];
+	}
+
+	bool Cadena::operator<(const Cadena& rhs) const {
+		if (secuence_.size() < rhs.secuence_.size()) {
+			return 1;
+		} else if (secuence_.size() == rhs.secuence_.size()) { 
+			return secuence_ < rhs.secuence_;
+		} else {
+			return 0;
+		}
 	}

@@ -14,6 +14,7 @@
 #ifndef CADENA_H
 #define CADENA_H
 
+#include "Alfabeto.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -28,16 +29,18 @@ class Cadena {
     std::string get_cadena() const;
     unsigned get_length() const;
     Cadena reverse() const;
+    void in_alpha(const Alfabeto&);
     void print(std::ostream& os = std::cout);
     void print_pre(std::ostream& os = std::cout);
     void print_suf(std::ostream& os = std::cout);
     void add_element_back(const char& simbol);
     void add_element_front(const char& simbol);
 
-    // Sobrecarga E/S
+    // Sobrecarga operadores
     friend std::ostream& operator<<(std::ostream&, const Cadena&);
     char& operator[](std::size_t);
     const char& operator[](std::size_t) const;
+    bool operator<(const Cadena& rhs) const;
 
   private:
     std::vector<char> secuence_;

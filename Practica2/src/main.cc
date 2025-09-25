@@ -15,16 +15,18 @@
 // 
 
 #include "tools.h"
+#include "Alfabeto.h"
+#include "Cadena.h"
+
+#include <cstring>
 
 int main(int argc, char *argv[]) {
-  unsigned option{0};
-  if (argc == 1) {
-    usage();
-  } else if (argc == 2 && argv[1] == "--help") {
+  if (argc == 2 && std::strcmp(argv[1], "--help") == 0) {
     usage();
   } else if (argc == 4) {
     std::string filename {argv[1]};
     std::string outfile {argv[2]};
+    unsigned mode = std::stoi(argv[3]);
     if (!is_open(filename)) {
       std::cerr << "The file '" << filename << "' doesnt exist\n" << std::endl;
       usage();
@@ -32,14 +34,34 @@ int main(int argc, char *argv[]) {
     }
     if (valid_option(argv[3])) {
       std::vector<std::string> stored = store_content(filename);
+      check_alpha(stored);
+      switch (mode) {
+      case 1:
+        DoAlphabet(stored, outfile);
+        
+        break;
+      case 2:
+        DoLength(stored, outfile);
+        break;
 
-      
+      case 3:
+        DoInverse(stored, outfile);
+        break;
 
+      case 4:
+        DoPrefix(stored, outfile);
+        break;
+
+      case 5:
+        DoSufix(stored, outfile);
+        break;
+      }
     } else {
       std::cerr << "Opcion Incorrecta, use la opción --help para ayuda" << std::endl;
       return 1;
     }
+  } else {
+    usage();
   }
-  
   return 0;
 }

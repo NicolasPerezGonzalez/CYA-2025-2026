@@ -19,6 +19,10 @@ Alfabeto::Alfabeto(const std::string& build) {
   }
 }
 
+Alfabeto::Alfabeto(const std::set<char>& build) {
+  simbolos_=build;
+}
+
 void Alfabeto::insert(char c) {
   simbolos_.insert(c);
 }
@@ -39,20 +43,20 @@ Alfabeto Alfabeto::unir(const Alfabeto& other) const {
 
 
 Alfabeto Alfabeto::inter(const Alfabeto& other) const {
-  Alfabeto res;
+  std::set<char> res;
   for (char c : simbolos_) {
       if (other.search(c)) {
           res.insert(c);
       }
   }
-  return res;
+  return Alfabeto(res);
 }
 
 std::ostream& operator<<(std::ostream& os, const Alfabeto& out) {
   os << "{";
   for (auto it = out.simbolos_.begin(); it != out.simbolos_.end(); ++it) {
     if (it != out.simbolos_.begin()) {
-      os << ",";
+      os << ", ";
     }
     os << *it;
   }

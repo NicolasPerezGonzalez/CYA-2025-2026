@@ -19,7 +19,8 @@
 
 class Alfabeto {
   public:
-    Alfabeto();
+    Alfabeto() = delete;
+    Alfabeto(const std::set<char>&);
     Alfabeto(const std::string&);
 
     void insert(char c);
