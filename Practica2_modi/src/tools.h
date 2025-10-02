@@ -131,5 +131,20 @@ void DoSufix(const std::vector<std::string> data, const std::string& fout) {
   }
 }
 
+void DoExp(const std::vector<std::string> data, const std::string& fout) {
+  std::ofstream output(fout);
+  unsigned rep{0};
+  std::cout << "Introduzca numero de veces que ha de realizar el exp de los prefijos" << std::endl;
+  std::cin >> rep;
+
+  for (unsigned i{0}; i < data.size(); ++(++i)) {
+    Lenguaje conj;
+    Cadena aux = data[i];
+    conj = conj.DoPrefix(aux);
+    conj = conj.exp(rep);
+    output << conj << std::endl;
+  }
+}
+
 
 #endif

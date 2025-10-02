@@ -34,6 +34,10 @@ class Lenguaje {
     Lenguaje DoSubCadenas(const Cadena&);
     Lenguaje DoSubSecuence(const Cadena&);
 
+    // Modi
+
+    Lenguaje concat();
+    Lenguaje exp(unsigned n);
     
     const char& operator[](std::size_t) const;
     friend std::ostream& operator<<(std::ostream&, const Lenguaje&);

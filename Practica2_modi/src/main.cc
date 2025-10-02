@@ -55,6 +55,10 @@ int main(int argc, char *argv[]) {
       case 5:
         DoSufix(stored, outfile);
         break;
+
+      case 6:
+        DoExp(stored, outfile);
+        break;
       }
     } else {
       std::cerr << "Opcion Incorrecta, use la opción --help para ayuda" << std::endl;
