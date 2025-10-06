@@ -47,6 +47,10 @@
     "cstring": "cpp",
     "set": "cpp",
     "fstream": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "bitset": "cpp",
+    "ctime": "cpp",
+    "list": "cpp",
+    "regex": "cpp"
   }
 }
