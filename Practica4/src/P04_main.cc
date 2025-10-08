@@ -8,9 +8,10 @@
 // Correo: alu0101558219@ull.edu.es
 // Fecha: 04/10/2025
 // Archivo P04_main.cc
-//
-//
-//
+//    Contiene la función main del programa, este programa recibe por linea de comandos:
+//    $ ./P4_CyAEX <Inputfile> <OupuFile>
+//    Siendo <Inputfile> un fichero de código en c++
+//    Compilacion del programa: make
 //
 
 #include "P04_tools.h"

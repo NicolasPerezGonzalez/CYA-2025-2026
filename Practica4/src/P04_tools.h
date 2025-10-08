@@ -8,10 +8,9 @@
 // Correo: alu0101558219@ull.edu.es
 // Fecha: 04/10/2025
 // Archivo P04_tools.cc
+//    Contiene las funciones generales para el main, ya sea el Usage() o el is_open()
 //
-//
-//
-//
+
 
 
 #include <iostream>
