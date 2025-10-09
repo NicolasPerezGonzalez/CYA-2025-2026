@@ -19,10 +19,10 @@
 #include <regex>
 #include <string>
 #include <vector>
-#include "Comment.cc"
-#include "Variable.cc"
-#include "Statement.cc"
-#include "Counter.cc"
+#include "Comment.h"
+#include "Variable.h"
+#include "Statement.h"
+#include "Counter.h"
 
 
 class Analyzer {
@@ -52,12 +52,11 @@ class Analyzer {
     void MainAnalyzer(std::ifstream& input_file, std::string& line);
     void VariableAnalyzer(std::ifstream& input_file, std::string& line);
 
-    // Funciones
+    // Metodos
     std::string get_variables() const;
     std::string get_statements() const;
     std::string get_comments() const;
-    void Store(const std::string& the_filename);
-    void See() const;
+    void Show(std::ostream& out = std::cout) const;
 };
 
 #endif

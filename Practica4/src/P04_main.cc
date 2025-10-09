@@ -15,6 +15,7 @@
 //
 
 #include "P04_tools.h"
+#include "Analyzer.h"
 
 int main(int argc, char *argv[]) {
   // Comprobar parametros
@@ -29,7 +30,10 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
   // Ejecutamos el programa
+  Analyzer analyzed_program(InputFile);
   // Guardamos el análisis
+  std::ofstream output_file{OuputFile};
+  analyzed_program.Show(output_file);
 
   return 0;
 }
