@@ -1,0 +1,14 @@
+Identificar y contar las directivas de precompilación
+
+#include <*>
+
+#include "test.h"
+
+#define n 10
+
+#pragma
+
+#ifndef ...
+#define ...
+
+#endif
