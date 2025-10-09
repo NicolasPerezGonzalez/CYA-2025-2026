@@ -94,13 +94,46 @@ Analyzer::Analyzer(std::string& the_filename) {
   // Valores por defecto
   main_ = false;
   brief_ = Comment(0, "Not found.");
-  // Check si en 
+  // Check si en estamos en un bucle
+  int loop_depth = 0;
+  bool pending_loop_open = false;
   // Recorremos los documentos
   while (getline(input_file, line)) {
     CommentAnalyzer(input_file, line);
     StatementAnalyzer(input_file, line);
     MainAnalyzer(input_file, line);
-    VariableAnalyzer(input_file, line);
+
+    // ---- Actualizar estado del bucle ----
+    bool is_loop = std::regex_search(line, rStatement); // detecta for o while
+    if (is_loop) {
+      // hemos encontrado un bucle; si no tiene { en la misma línea,
+      // esperamos que aparezca en una posterior
+      if (line.find('{') != std::string::npos) {
+        ++loop_depth; // ya estamos dentro del cuerpo
+      } else {
+        pending_loop_open = true;
+      }
+    }
+    // contar llaves en la línea
+    int opens  = std::count(line.begin(), line.end(), '{');
+    int closes = std::count(line.begin(), line.end(), '}');
+    // si estamos esperando la '{' del bucle y aparece aquí:
+    if (pending_loop_open && opens > 0) {
+      ++loop_depth;
+      pending_loop_open = false;
+      --opens; // consumimos la primera '{' que abre el bucle
+    }
+    // Ajustar profundidad actual
+    if (loop_depth > 0) {
+      loop_depth += opens;
+      loop_depth -= std::min(loop_depth, closes);
+    }
+    // -------------------------------------
+
+    // Solo analizamos variables si NO estamos dentro de un bucle
+    if (loop_depth == 0) {
+      VariableAnalyzer(input_file, line);
+    }
   }
 }
 
@@ -117,16 +150,16 @@ void Analyzer::Show(std::ostream& out) const {
   for (const auto& elem : statements_) out << elem << std::endl;
   out << std::endl;
 
-  out << "MAIN: ";
-  if (main_) out << "true" << std::endl;
-  else out << "false" << std::endl;
-  out << "Line: " << mainline_ << std::endl;
+  out << "MAIN: \n";
+  if (main_) out << "True" << std::endl;
+  else out << "False" << std::endl;
+  out << "(Line: " << mainline_ << ")" << std::endl;
   out << std::endl;
 
   out << "COMMENTS: " << std::endl;
   for (const auto& elem : comments_) {
     if (elem.get_text() == brief_.get_text()) {
-      out << brief_.get_lines() << "DESCRIPTION" << std::endl;
+      out << brief_.get_lines() << " DESCRIPTION" << std::endl;
     } else {
       out << elem << std::endl;
     }
@@ -134,11 +167,11 @@ void Analyzer::Show(std::ostream& out) const {
 
 
   out << std::endl;
-  out << "COUNTER: " << std::endl;
+  out << "####################\nCOUNTER: " << std::endl;
   out << "while: " << counter_.get_while_count() << std::endl;
   out << "for: " << counter_.get_for_count() << std::endl;
   out << "int: " << counter_.get_int_count() << std::endl;
   out << "double: " << counter_.get_double_count() << std::endl;
-
+  out << "####################" << std::endl;
 }
 

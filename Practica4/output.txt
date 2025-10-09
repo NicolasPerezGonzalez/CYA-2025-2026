@@ -14,21 +14,23 @@ DESCRIPTION:
 VARIABLES: 
 [Line 22] INT: factorial 
 [Line 32] INT: limit 
-[Line 35] DOUBLE: Factorial 
 
 STATEMENTS: 
 [Line 23] LOOP: for
 [Line 34] LOOP: for
 
-MAIN: true
-Line: 30
+MAIN: 
+True
+(Line: 30)
 
 COMMENTS: 
-[Lines 1-10]DESCRIPTION
-[Lines 15-16777226]: // Returns the factorial of the argument
+[Lines 1-10] DESCRIPTION
+[Line 15] // Returns the factorial of the argument
 
+####################
 COUNTER: 
 while: 0
 for: 2
 int: 2
-double: 1
+double: 0
+####################

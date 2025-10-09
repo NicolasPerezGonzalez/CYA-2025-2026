@@ -23,7 +23,7 @@ Comment::Comment(const int start, const int end, const std::string& text) {
 // Constructor para el comentario de una linea
 Comment::Comment(const int line, const std::string& text) {
   start_ = line;
-  start_ = line;
+  end_ = line;
   text_ = text;
 }
 
