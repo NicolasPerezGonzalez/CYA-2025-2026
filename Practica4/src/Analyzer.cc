@@ -94,6 +94,7 @@ Analyzer::Analyzer(std::string& the_filename) {
   // Valores por defecto
   main_ = false;
   brief_ = Comment(0, "Not found.");
+  // Check si en 
   // Recorremos los documentos
   while (getline(input_file, line)) {
     CommentAnalyzer(input_file, line);
@@ -109,6 +110,10 @@ void Analyzer::Show(std::ostream& out) const {
   out << std::endl;
 
   out << "VARIABLES: " << std::endl;
+  for (const auto& elem : variables_) out << elem << std::endl;
+  out << std::endl;
+
+  out << "STATEMENTS: " << std::endl;
   for (const auto& elem : statements_) out << elem << std::endl;
   out << std::endl;
 
