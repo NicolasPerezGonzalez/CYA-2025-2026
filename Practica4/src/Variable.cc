@@ -8,7 +8,7 @@
 // Correo: alu0101558219@ull.edu.es
 // Fecha: 04/10/2025
 // Archivo Variable.h
-//    Declaracion clase "variable"
+//    Definición clase "variable"
 //
 #include "Variable.h"
 

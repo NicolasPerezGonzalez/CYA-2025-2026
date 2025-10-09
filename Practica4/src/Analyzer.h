@@ -14,28 +14,50 @@
 #ifndef ANALYZER_H
 #define ANALYZER_H
 
+#include <fstream>
+#include <iostream>
+#include <regex>
 #include <string>
 #include <vector>
 #include "Comment.cc"
+#include "Variable.cc"
+#include "Statement.cc"
+#include "Counter.cc"
+
 
 class Analyzer {
   private:
     // Filename
     std::string filename_;
+    // Fichero
+    std::vector<std::string> lines_;
     // Coments
     Comment brief_;
     std::vector<Comment> comments_;
-    // Description
     // Variables
+    std::vector<Variable> variables_;
     // Statements
+    std::vector<Statement> statements_;
+    // Counters
+    Counter counter_;
     // Main
     bool main_;
-    int mainline_;
-    
-    
+    int mainline_;    
   public:
+    // Constructor (mediante un fichero de entrada)
+    Analyzer(std::string& the_filename);
+    // Metodos del constructor
+    void CommentAnalyzer(std::ifstream& input_file, std::string& line);
+    void StatementAnalyzer(std::ifstream& input_file, std::string& line);
+    void MainAnalyzer(std::ifstream& input_file, std::string& line);
+    void VariableAnalyzer(std::ifstream& input_file, std::string& line);
 
+    // Funciones
+    std::string get_variables() const;
+    std::string get_statements() const;
+    std::string get_comments() const;
+    void Store(const std::string& the_filename);
+    void See() const;
 };
-
 
 #endif
