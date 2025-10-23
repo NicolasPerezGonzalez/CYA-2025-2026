@@ -1,0 +1,23 @@
+Alfabeto:{ a b c }
+Simbolos no terminales:
+A
+B
+C
+D
+E
+F
+G
+Simbolo inicial:
+A
+Producciones:
+A -> aB
+B -> aB
+B -> aC
+B -> &E
+B -> bF
+C -> bD
+D -> bE
+E -> bE
+F -> cG
+G -> bF
+G -> &B
