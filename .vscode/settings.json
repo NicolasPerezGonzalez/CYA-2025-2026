@@ -51,6 +51,7 @@
     "bitset": "cpp",
     "ctime": "cpp",
     "list": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "p08_tools": "cpp"
   }
 }
