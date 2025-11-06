@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
+#include <queue>
 
 #include "alphabet.h"
 #include "symbol.h"
@@ -65,6 +67,9 @@ class Grammar {
     friend std::ostream& operator<<(std::ostream& out, const Grammar& grammar);
     Grammar ConvertToCNF();
     void check();
+
+    /// Modi
+    void nonUniqProd();
 
     /// Posibles modis
     /// void productions();

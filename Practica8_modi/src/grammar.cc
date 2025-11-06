@@ -317,7 +317,7 @@ void Grammar::write(const std::string& kFileName) {
     output_file << elem << std::endl;
   }
   /// Símbolo de arranque
-  output_file << initial_ << " -> (Simbolo de arranque)" <<std::endl;
+  output_file << initial_ << " -> (Simbolo de arranque)" << std::endl;
   /// Producciones
   output_file << productions_.size() << std::endl;
   for (const auto& elem : getProductions()) {
@@ -354,6 +354,82 @@ std::ostream& operator<<(std::ostream& out, const Grammar& grammar) {
   out << std::endl;
   return out;
 }
+
+/// Modificacion
+void Grammar::nonUniqProd() {
+  // Mapa para almacenar las producciones por no terminal
+  std::map<Symbol, std::set<std::vector<Symbol>>> prod_map;
+  for (const auto& prod : productions_) {
+    prod_map[prod.first].insert(prod.second);
+  }
+
+  // Mapa para almacenar las producciones unitarias
+  std::map<Symbol, std::set<Symbol>> unit_map;
+
+  // Identificar y almacenar producciones que solo produzcan un no terminal
+  for (const auto& prod : productions_) {
+    if (prod.second.size() == 1 && non_terminals_.find(prod.second[0])) {
+      unit_map[prod.first].insert(prod.second[0]);
+    }
+  }
+
+  // Calcular el cierre transitivo de producciones unitarias
+  for (const auto& nt : getNonTerminals().getAlphabet()) {
+    std::set<Symbol> closure;
+    std::queue<Symbol> q;
+
+    if (unit_map.count(nt)) {
+      for (const auto& u : unit_map[nt]) {
+        closure.insert(u);
+        q.push(u);
+      }
+    }
+
+    while (!q.empty()) {
+      Symbol current = q.front();
+      q.pop();
+      if (unit_map.count(current)) {
+        for (const auto& next : unit_map[current]) {
+          if (!closure.count(next)) {
+            closure.insert(next);
+            q.push(next);
+          }
+        }
+      }
+    }
+
+    // Añadir producciones no unitarias de los símbolos alcanzables
+    for (const auto& reachable : closure) {
+      for (const auto& rhs : prod_map[reachable]) {
+        if (!(rhs.size() == 1 && non_terminals_.find(rhs[0]))) {
+          prod_map[nt].insert(rhs);
+        }
+      }
+    }
+
+    // Eliminar producciones unitarias
+    std::set<std::vector<Symbol>> new_prods;
+    for (const auto& rhs : prod_map[nt]) {
+      if (!(rhs.size() == 1 && non_terminals_.find(rhs[0]))) {
+        new_prods.insert(rhs);
+      }
+    }
+    prod_map[nt] = new_prods;
+  }
+
+  // Reconstruir el conjunto de producciones
+  set_pair new_productions;
+  for (const auto& [lhs, rhs_set] : prod_map) {
+    for (const auto& rhs : rhs_set) {
+      new_productions.insert({lhs, rhs});
+    }
+  }
+
+  productions_ = new_productions;
+}
+
+
+
 
 
 /**     POSIBLE MODI
